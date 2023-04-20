@@ -1,0 +1,1 @@
+# Database-Management-System-Lab-TE-Comp-2019-Pattern
