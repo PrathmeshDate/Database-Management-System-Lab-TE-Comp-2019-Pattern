@@ -1,0 +1,867 @@
+(base) unix@unix-HP-280-G1-MT:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.7.27-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database A_14;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 52_A               |
+| A_14               |
+| Assi3_DBMS         |
+| Class              |
+| TE                 |
+| database_Akshay    |
+| db                 |
+| mysql              |
+| performance_schema |
+| sakshi73           |
+| sys                |
+| test               |
+| try                |
++--------------------+
+14 rows in set (0.00 sec)
+
+mysql> use A_14;
+Database changed
+mysql> create table Dept(Deptno int primary key, Name varchar(30) not null, Location varchar(30) not null, Managerempid int );
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_A_14 |
++----------------+
+| Dept           |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select * from Dept;
+Empty set (0.00 sec)
+
+mysql> create table Employees(empid int primary key, Name varchar(30) not null, Address varchar(30) ,City varchar(30),Dob date, Date_of_joining date,Gender char(1),Salary int not null,Deptno int, foreign key(Deptno) references Dept (Deptno),check(Gender in ('M','F')) );
+Query OK, 0 rows affected (0.26 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_A_14 |
++----------------+
+| Dept           |
+| Employees      |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from Employees;
+Empty set (0.00 sec)
+
+mysql> create table Project(Project_id int primary key, Title varchar(30)not null, City varchar(30) );
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_A_14 |
++----------------+
+| Dept           |
+| Employees      |
+| Project        |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from Project;
+Empty set (0.00 sec)
+
+mysql> desc Dept;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| Deptno       | int(11)     | NO   | PRI | NULL    |       |
+| Name         | varchar(30) | NO   |     | NULL    |       |
+| Location     | varchar(30) | NO   |     | NULL    |       |
+| Managerempid | int(11)     | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Dept values(1,"Development","Building 1",401);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from Dept;
++--------+-------------+------------+--------------+
+| Deptno | Name        | Location   | Managerempid |
++--------+-------------+------------+--------------+
+|      1 | Development | Building 1 |          401 |
++--------+-------------+------------+--------------+
+1 row in set (0.00 sec)
+
+mysql> insert into Dept values(2,"Testing","Building 2",402);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into Dept values(2,"Planning","Building 2",403);
+ERROR 1062 (23000): Duplicate entry '2' for key 'PRIMARY'
+mysql> insert into Dept values(3,"Planning","Building 2",403);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into Dept values(4,"Service","Building 3",404);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into Dept values(4,"Administration","Main Building",405);
+ERROR 1062 (23000): Duplicate entry '4' for key 'PRIMARY'
+mysql> insert into Dept values(5,"Administration","Main Building",405);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from Dept;
++--------+----------------+---------------+--------------+
+| Deptno | Name           | Location      | Managerempid |
++--------+----------------+---------------+--------------+
+|      1 | Development    | Building 1    |          401 |
+|      2 | Testing        | Building 2    |          402 |
+|      3 | Planning       | Building 2    |          403 |
+|      4 | Service        | Building 3    |          404 |
+|      5 | Administration | Main Building |          405 |
++--------+----------------+---------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> describe Employees;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| empid           | int(11)     | NO   | PRI | NULL    |       |
+| Name            | varchar(30) | NO   |     | NULL    |       |
+| Address         | varchar(30) | YES  |     | NULL    |       |
+| City            | varchar(30) | YES  |     | NULL    |       |
+| Dob             | date        | YES  |     | NULL    |       |
+| Date_of_joining | date        | YES  |     | NULL    |       |
+| Gender          | char(1)     | YES  |     | NULL    |       |
+| Salary          | int(11)     | NO   |     | NULL    |       |
+| Deptno          | int(11)     | YES  | MUL | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+mysql> select * from Employees;
+Empty set (0.00 sec)
+
+mysql> drop table Employees;
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> create table Employees(Name varchar(30) not null,empid int primary key, address varchar(30) ,city varchar(30),dob date, date_of_joining date,gender char(1),salary int not null,deptno int, foreign key(deptno) references Dept (Deptno),check(gender in ('M','F')) ); Query OK, 0 rows affected (0.33 sec)
+
+mysql> describe Employees;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Name            | varchar(30) | NO   |     | NULL    |       |
+| empid           | int(11)     | NO   | PRI | NULL    |       |
+| address         | varchar(30) | YES  |     | NULL    |       |
+| city            | varchar(30) | YES  |     | NULL    |       |
+| dob             | date        | YES  |     | NULL    |       |
+| date_of_joining | date        | YES  |     | NULL    |       |
+| gender          | char(1)     | YES  |     | NULL    |       |
+| salary          | int(11)     | NO   |     | NULL    |       |
+| deptno          | int(11)     | YES  | MUL | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+mysql> insert into Employees values("Prathmesh","201","Warkhed","Malkapur","2002-03-28","2021-01-29","M",800000,2);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from Employees;
++-----------+-------+---------+----------+------------+-----------------+--------+--------+--------+
+| Name      | empid | address | city     | dob        | date_of_joining | gender | salary | deptno |
++-----------+-------+---------+----------+------------+-----------------+--------+--------+--------+
+| Prathmesh |   201 | Warkhed | Malkapur | 2002-03-28 | 2021-01-29      | M      | 800000 |      2 |
++-----------+-------+---------+----------+------------+-----------------+--------+--------+--------+
+1 row in set (0.00 sec)
+
+mysql> insert into Employees values("Anuja","221","Warkhed","Malkapur","2005-10-29","2023-02-30","F",700000,1);
+ERROR 1292 (22007): Incorrect date value: '2023-02-30' for column 'date_of_joining' at row 1
+mysql> insert into Employees values("Anuja","221","Warkhed","Malkapur","2005-10-29","2020-02-30","F",700000,1);
+ERROR 1292 (22007): Incorrect date value: '2020-02-30' for column 'date_of_joining' at row 1
+mysql> insert into Employees values("Anuja","221","Warkhed","Malkapur","2005-10-29","2020-02-28","F",700000,1);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Employees values("Jayesh","101","Malegaon","Nashik","2001-10-29","2021-01-15","M",800000,3);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from Employees;
++-----------+-------+----------+----------+------------+-----------------+--------+--------+--------+
+| Name      | empid | address  | city     | dob        | date_of_joining | gender | salary | deptno |
++-----------+-------+----------+----------+------------+-----------------+--------+--------+--------+
+| Jayesh    |   101 | Malegaon | Nashik   | 2001-10-29 | 2021-01-15      | M      | 800000 |      3 |
+| Prathmesh |   201 | Warkhed  | Malkapur | 2002-03-28 | 2021-01-29      | M      | 800000 |      2 |
+| Anuja     |   221 | Warkhed  | Malkapur | 2005-10-29 | 2020-02-28      | F      | 700000 |      1 |
++-----------+-------+----------+----------+------------+-----------------+--------+--------+--------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Employees values("Atharva","101","Satpur","Nashik","2002-03-30","2021-01-28","M",1000000,4);
+ERROR 1062 (23000): Duplicate entry '101' for key 'PRIMARY'
+mysql> show tables;
++----------------+
+| Tables_in_A_14 |
++----------------+
+| Dept           |
+| Employees      |
+| Project        |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from Dept;
++--------+----------------+---------------+--------------+
+| Deptno | Name           | Location      | Managerempid |
++--------+----------------+---------------+--------------+
+|      1 | Development    | Building 1    |          401 |
+|      2 | Testing        | Building 2    |          402 |
+|      3 | Planning       | Building 2    |          403 |
+|      4 | Service        | Building 3    |          404 |
+|      5 | Administration | Main Building |          405 |
++--------+----------------+---------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into Employees values("Yash","305","Panchavati","Nashik","2002-05-30","2021-01-26","M",500000,2);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into Employees values("Yas"305","Panchavati","Nashik","2002-05-30","2021-01-26","M",500000,2);
+[1]+  Stopped                 mysql -u root -p
+(base) unix@unix-HP-280-G1-MT:~$ mysql -u root -p;
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 6
+Server version: 5.7.27-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use A_14;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'database' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 52_A               |
+| A_14               |
+| Assi3_DBMS         |
+| Class              |
+| TE                 |
+| database_Akshay    |
+| db                 |
+| mysql              |
+| performance_schema |
+| sakshi73           |
+| sys                |
+| test               |
+| try                |
++--------------------+
+14 rows in set (0.00 sec)
+
+mysql> use A_14;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_A_14 |
++----------------+
+| Dept           |
+| Employees      |
+| Project        |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from Employees;
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+
+| Name      | empid | address    | city     | dob        | date_of_joining | gender | salary | deptno |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+
+| Jayesh    |   101 | Malegaon   | Nashik   | 2001-10-29 | 2021-01-15      | M      | 800000 |      3 |
+| Prathmesh |   201 | Warkhed    | Malkapur | 2002-03-28 | 2021-01-29      | M      | 800000 |      2 |
+| Anuja     |   221 | Warkhed    | Malkapur | 2005-10-29 | 2020-02-28      | F      | 700000 |      1 |
+| Yash      |   305 | Panchavati | Nashik   | 2002-05-30 | 2021-01-26      | M      | 500000 |      2 |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Employees values("Pranav","222","XYZ","Latur","2001-04-28","2021-01-29","M",600000,3);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from employees;
+ERROR 1146 (42S02): Table 'A_14.employees' doesn't exist
+mysql> select * from Employees;
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+
+| Name      | empid | address    | city     | dob        | date_of_joining | gender | salary | deptno |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+
+| Jayesh    |   101 | Malegaon   | Nashik   | 2001-10-29 | 2021-01-15      | M      | 800000 |      3 |
+| Prathmesh |   201 | Warkhed    | Malkapur | 2002-03-28 | 2021-01-29      | M      | 800000 |      2 |
+| Anuja     |   221 | Warkhed    | Malkapur | 2005-10-29 | 2020-02-28      | F      | 700000 |      1 |
+| Pranav    |   222 | XYZ        | Latur    | 2001-04-28 | 2021-01-29      | M      | 600000 |      3 |
+| Yash      |   305 | Panchavati | Nashik   | 2002-05-30 | 2021-01-26      | M      | 500000 |      2 |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+
+5 rows in set (0.00 sec)
+
+mysql> insert into Employees values("Kedar","305","Katraj","Pune","2001-04-15","2020-01-29","M",600000,3);
+ERROR 1062 (23000): Duplicate entry '305' for key 'PRIMARY'
+mysql> insert into Employees values("Kedar","308","Katraj","Pune","2001-04-15","2020-01-29","M",600000,3);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from employees;
+ERROR 1146 (42S02): Table 'A_14.employees' doesn't exist
+mysql> select * from Employees;
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+
+| Name      | empid | address    | city     | dob        | date_of_joining | gender | salary | deptno |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+
+| Jayesh    |   101 | Malegaon   | Nashik   | 2001-10-29 | 2021-01-15      | M      | 800000 |      3 |
+| Prathmesh |   201 | Warkhed    | Malkapur | 2002-03-28 | 2021-01-29      | M      | 800000 |      2 |
+| Anuja     |   221 | Warkhed    | Malkapur | 2005-10-29 | 2020-02-28      | F      | 700000 |      1 |
+| Pranav    |   222 | XYZ        | Latur    | 2001-04-28 | 2021-01-29      | M      | 600000 |      3 |
+| Yash      |   305 | Panchavati | Nashik   | 2002-05-30 | 2021-01-26      | M      | 500000 |      2 |
+| Kedar     |   308 | Katraj     | Pune     | 2001-04-15 | 2020-01-29      | M      | 600000 |      3 |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> insert into Employees values("Kapil","258","Swargate","Pune","2001-09-25","2019-01-29","M",600000,4);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from Projects
+    -> select * from Project;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from Project' at line 2
+mysql> select * from Project;
+Empty set (0.00 sec)
+
+mysql> insert into Project values(1,"Banking Project","Nashik");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Project;
++------------+-----------------+--------+
+| Project_id | Title           | City   |
++------------+-----------------+--------+
+|          1 | Banking Project | Nashik |
++------------+-----------------+--------+
+1 row in set (0.00 sec)
+
+mysql> insert into Project values(2,"Testing project","Nashik");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into Project values(3,"ERP system","Pune");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Project values(3,"Software Management","Mumbai");
+ERROR 1062 (23000): Duplicate entry '3' for key 'PRIMARY'
+mysql> insert into Project values(4,"Software Management","Mumbai");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from Project;
++------------+---------------------+--------+
+| Project_id | Title               | City   |
++------------+---------------------+--------+
+|          1 | Banking Project     | Nashik |
+|          2 | Testing project     | Nashik |
+|          3 | ERP system          | Pune   |
+|          4 | Software Management | Mumbai |
++------------+---------------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Project values(4,"Debugging Project","Pune");
+ERROR 1062 (23000): Duplicate entry '4' for key 'PRIMARY'
+mysql> insert into Project values(5,"Debugging Project","Pune");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_A_14 |
++----------------+
+| Dept           |
+| Employees      |
+| Project        |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> create table Works(empid int,Projectid int, total_hrs_worked int);
+Query OK, 0 rows affected (0.23 sec)
+
+mysql> describe Works;
++------------------+---------+------+-----+---------+-------+
+| Field            | Type    | Null | Key | Default | Extra |
++------------------+---------+------+-----+---------+-------+
+| empid            | int(11) | YES  |     | NULL    |       |
+| Projectid        | int(11) | YES  |     | NULL    |       |
+| total_hrs_worked | int(11) | YES  |     | NULL    |       |
++------------------+---------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Works(101,1,35);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '101,1,35)' at line 1
+mysql> insert into Works values(101,1,35);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into Works values(103,2,20);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from Works;
++-------+-----------+------------------+
+| empid | Projectid | total_hrs_worked |
++-------+-----------+------------------+
+|   101 |         1 |               35 |
+|   103 |         2 |               20 |
++-------+-----------+------------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Works values(222,3,15);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into Works values(309,3,40);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Works;
++-------+-----------+------------------+
+| empid | Projectid | total_hrs_worked |
++-------+-----------+------------------+
+|   101 |         1 |               35 |
+|   103 |         2 |               20 |
+|   222 |         3 |               15 |
+|   309 |         3 |               40 |
++-------+-----------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Works values(305,2,5);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Works;
++-------+-----------+------------------+
+| empid | Projectid | total_hrs_worked |
++-------+-----------+------------------+
+|   101 |         1 |               35 |
+|   103 |         2 |               20 |
+|   222 |         3 |               15 |
+|   309 |         3 |               40 |
+|   305 |         2 |                5 |
++-------+-----------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into Works values(221,4,10);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Works values(201,4,17);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from Works;
++-------+-----------+------------------+
+| empid | Projectid | total_hrs_worked |
++-------+-----------+------------------+
+|   101 |         1 |               35 |
+|   103 |         2 |               20 |
+|   222 |         3 |               15 |
+|   309 |         3 |               40 |
+|   305 |         2 |                5 |
+|   221 |         4 |               10 |
+|   201 |         4 |               17 |
++-------+-----------+------------------+
+7 rows in set (0.00 sec)
+
+mysql> insert into Works values(308,3,19);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from Works;
++-------+-----------+------------------+
+| empid | Projectid | total_hrs_worked |
++-------+-----------+------------------+
+|   101 |         1 |               35 |
+|   103 |         2 |               20 |
+|   222 |         3 |               15 |
+|   309 |         3 |               40 |
+|   305 |         2 |                5 |
+|   221 |         4 |               10 |
+|   201 |         4 |               17 |
+|   308 |         3 |               19 |
++-------+-----------+------------------+
+8 rows in set (0.00 sec)
+
+mysql> create table Dependant(empid int,name_of_dependent varchar(40),age int,relation varchar(20));
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> insert into Dependent(102,"XYZ",15,"Son");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '102,"XYZ",15,"Son")' at line 1
+mysql> insert into Dependent values(102,"XYZ",15,"Son");
+ERROR 1146 (42S02): Table 'A_14.Dependent' doesn't exist
+mysql> insert into Dependant values(102,"XYZ",15,"Son");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into Dependant values(102,"PQR",18,"Daughter");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Dependant values(305,"MNO",50,"Mother");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from Dependant;
++-------+-------------------+------+----------+
+| empid | name_of_dependent | age  | relation |
++-------+-------------------+------+----------+
+|   102 | XYZ               |   15 | Son      |
+|   102 | PQR               |   18 | Daughter |
+|   305 | MNO               |   50 | Mother   |
++-------+-------------------+------+----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Dependant values(101,"QWE",75,"Father");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> describe Dept;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| Deptno       | int(11)     | NO   | PRI | NULL    |       |
+| Name         | varchar(30) | NO   |     | NULL    |       |
+| Location     | varchar(30) | NO   |     | NULL    |       |
+| Managerempid | int(11)     | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from Dept;
++--------+----------------+---------------+--------------+
+| Deptno | Name           | Location      | Managerempid |
++--------+----------------+---------------+--------------+
+|      1 | Development    | Building 1    |          401 |
+|      2 | Testing        | Building 2    |          402 |
+|      3 | Planning       | Building 2    |          403 |
+|      4 | Service        | Building 3    |          404 |
+|      5 | Administration | Main Building |          405 |
++--------+----------------+---------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from Employees;
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+
+| Name      | empid | address    | city     | dob        | date_of_joining | gender | salary | deptno |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+
+| Jayesh    |   101 | Malegaon   | Nashik   | 2001-10-29 | 2021-01-15      | M      | 800000 |      3 |
+| Prathmesh |   201 | Warkhed    | Malkapur | 2002-03-28 | 2021-01-29      | M      | 800000 |      2 |
+| Anuja     |   221 | Warkhed    | Malkapur | 2005-10-29 | 2020-02-28      | F      | 700000 |      1 |
+| Pranav    |   222 | XYZ        | Latur    | 2001-04-28 | 2021-01-29      | M      | 600000 |      3 |
+| Kapil     |   258 | Swargate   | Pune     | 2001-09-25 | 2019-01-29      | M      | 600000 |      4 |
+| Yash      |   305 | Panchavati | Nashik   | 2002-05-30 | 2021-01-26      | M      | 500000 |      2 |
+| Kedar     |   308 | Katraj     | Pune     | 2001-04-15 | 2020-01-29      | M      | 600000 |      3 |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+
+7 rows in set (0.00 sec)
+
+mysql> alter table Employees add Mobile_Number bigint;
+Query OK, 0 rows affected (0.53 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from Employees;
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Name      | empid | address    | city     | dob        | date_of_joining | gender | salary | deptno | Mobile_Number |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Jayesh    |   101 | Malegaon   | Nashik   | 2001-10-29 | 2021-01-15      | M      | 800000 |      3 |          NULL |
+| Prathmesh |   201 | Warkhed    | Malkapur | 2002-03-28 | 2021-01-29      | M      | 800000 |      2 |          NULL |
+| Anuja     |   221 | Warkhed    | Malkapur | 2005-10-29 | 2020-02-28      | F      | 700000 |      1 |          NULL |
+| Pranav    |   222 | XYZ        | Latur    | 2001-04-28 | 2021-01-29      | M      | 600000 |      3 |          NULL |
+| Kapil     |   258 | Swargate   | Pune     | 2001-09-25 | 2019-01-29      | M      | 600000 |      4 |          NULL |
+| Yash      |   305 | Panchavati | Nashik   | 2002-05-30 | 2021-01-26      | M      | 500000 |      2 |          NULL |
+| Kedar     |   308 | Katraj     | Pune     | 2001-04-15 | 2020-01-29      | M      | 600000 |      3 |          NULL |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+7 rows in set (0.00 sec)
+
+mysql> update Employees SET Mobile_Number = 9022363964 where empid = 201;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Employees;
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Name      | empid | address    | city     | dob        | date_of_joining | gender | salary | deptno | Mobile_Number |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Jayesh    |   101 | Malegaon   | Nashik   | 2001-10-29 | 2021-01-15      | M      | 800000 |      3 |          NULL |
+| Prathmesh |   201 | Warkhed    | Malkapur | 2002-03-28 | 2021-01-29      | M      | 800000 |      2 |    9022363964 |
+| Anuja     |   221 | Warkhed    | Malkapur | 2005-10-29 | 2020-02-28      | F      | 700000 |      1 |          NULL |
+| Pranav    |   222 | XYZ        | Latur    | 2001-04-28 | 2021-01-29      | M      | 600000 |      3 |          NULL |
+| Kapil     |   258 | Swargate   | Pune     | 2001-09-25 | 2019-01-29      | M      | 600000 |      4 |          NULL |
+| Yash      |   305 | Panchavati | Nashik   | 2002-05-30 | 2021-01-26      | M      | 500000 |      2 |          NULL |
+| Kedar     |   308 | Katraj     | Pune     | 2001-04-15 | 2020-01-29      | M      | 600000 |      3 |          NULL |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+7 rows in set (0.00 sec)
+
+mysql> update Employees SET Mobile_Number = 1234567890 where empid = 101;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Employees SET Mobile_Number = 1234567891 where empid = 221;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Employees SET Mobile_Number = 9876543210 where empid = 222;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Employees SET Mobile_Number = 9876541110 where empid = 258;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Employees SET Mobile_Number = 2058631575 where empid = 305;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Employees SET Mobile_Number = 7894563210 where empid = 308;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Employees;
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Name      | empid | address    | city     | dob        | date_of_joining | gender | salary | deptno | Mobile_Number |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Jayesh    |   101 | Malegaon   | Nashik   | 2001-10-29 | 2021-01-15      | M      | 800000 |      3 |    1234567890 |
+| Prathmesh |   201 | Warkhed    | Malkapur | 2002-03-28 | 2021-01-29      | M      | 800000 |      2 |    9022363964 |
+| Anuja     |   221 | Warkhed    | Malkapur | 2005-10-29 | 2020-02-28      | F      | 700000 |      1 |    1234567891 |
+| Pranav    |   222 | XYZ        | Latur    | 2001-04-28 | 2021-01-29      | M      | 600000 |      3 |    9876543210 |
+| Kapil     |   258 | Swargate   | Pune     | 2001-09-25 | 2019-01-29      | M      | 600000 |      4 |    9876541110 |
+| Yash      |   305 | Panchavati | Nashik   | 2002-05-30 | 2021-01-26      | M      | 500000 |      2 |    2058631575 |
+| Kedar     |   308 | Katraj     | Pune     | 2001-04-15 | 2020-01-29      | M      | 600000 |      3 |    7894563210 |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+7 rows in set (0.00 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_A_14 |
++----------------+
+| Dependant      |
+| Dept           |
+| Employees      |
+| Project        |
+| Works          |
++----------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from Project;
++------------+---------------------+--------+
+| Project_id | Title               | City   |
++------------+---------------------+--------+
+|          1 | Banking Project     | Nashik |
+|          2 | Testing project     | Nashik |
+|          3 | ERP system          | Pune   |
+|          4 | Software Management | Mumbai |
+|          5 | Debugging Project   | Pune   |
++------------+---------------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> delete from Project where Project_id = 2;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Project;
++------------+---------------------+--------+
+| Project_id | Title               | City   |
++------------+---------------------+--------+
+|          1 | Banking Project     | Nashik |
+|          3 | ERP system          | Pune   |
+|          4 | Software Management | Mumbai |
+|          5 | Debugging Project   | Pune   |
++------------+---------------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Employees values(307,"Suraj","","Nashik","2000-11-15","2024-06-05",'F',40000,1);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into Employees values(307,"Suraj","Ghirni Road","Malkapur","2000-11-15","2024-06-05",'F',40000,1);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> describe Employees;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Name            | varchar(30) | NO   |     | NULL    |       |
+| empid           | int(11)     | NO   | PRI | NULL    |       |
+| address         | varchar(30) | YES  |     | NULL    |       |
+| city            | varchar(30) | YES  |     | NULL    |       |
+| dob             | date        | YES  |     | NULL    |       |
+| date_of_joining | date        | YES  |     | NULL    |       |
+| gender          | char(1)     | YES  |     | NULL    |       |
+| salary          | int(11)     | NO   |     | NULL    |       |
+| deptno          | int(11)     | YES  | MUL | NULL    |       |
+| Mobile_Number   | bigint(20)  | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+10 rows in set (0.00 sec)
+
+mysql> insert into Employees values(307,"Suraj","Ghirni Road","Malkapur","2000-11-15","2024-06-05",'F',40000,1,9463527899);
+ERROR 1366 (HY000): Incorrect integer value: 'Suraj' for column 'empid' at row 1
+mysql> select * from Employees;
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Name      | empid | address    | city     | dob        | date_of_joining | gender | salary | deptno | Mobile_Number |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Jayesh    |   101 | Malegaon   | Nashik   | 2001-10-29 | 2021-01-15      | M      | 800000 |      3 |    1234567890 |
+| Prathmesh |   201 | Warkhed    | Malkapur | 2002-03-28 | 2021-01-29      | M      | 800000 |      2 |    9022363964 |
+| Anuja     |   221 | Warkhed    | Malkapur | 2005-10-29 | 2020-02-28      | F      | 700000 |      1 |    1234567891 |
+| Pranav    |   222 | XYZ        | Latur    | 2001-04-28 | 2021-01-29      | M      | 600000 |      3 |    9876543210 |
+| Kapil     |   258 | Swargate   | Pune     | 2001-09-25 | 2019-01-29      | M      | 600000 |      4 |    9876541110 |
+| Yash      |   305 | Panchavati | Nashik   | 2002-05-30 | 2021-01-26      | M      | 500000 |      2 |    2058631575 |
+| Kedar     |   308 | Katraj     | Pune     | 2001-04-15 | 2020-01-29      | M      | 600000 |      3 |    7894563210 |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+7 rows in set (0.00 sec)
+
+mysql> insert into Employees values("Suraj",307,"Ghirni Road","Malkapur","2000-11-15","2024-06-05",'F',40000,1,9463527899);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Employees where Name like 'S%';
++-------+-------+-------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Name  | empid | address     | city     | dob        | date_of_joining | gender | salary | deptno | Mobile_Number |
++-------+-------+-------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Suraj |   307 | Ghirni Road | Malkapur | 2000-11-15 | 2024-06-05      | F      |  40000 |      1 |    9463527899 |
++-------+-------+-------------+----------+------------+-----------------+--------+--------+--------+---------------+
+1 row in set (0.00 sec)
+
+mysql> select * from Dept where Location = "Building 1";
++--------+-------------+------------+--------------+
+| Deptno | Name        | Location   | Managerempid |
++--------+-------------+------------+--------------+
+|      1 | Development | Building 1 |          401 |
++--------+-------------+------------+--------------+
+1 row in set (0.00 sec)
+
+mysql> select * from Employees where year(date_of_joining)='2019' or year(date_of_joining);
++-----------+-------+-------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Name      | empid | address     | city     | dob        | date_of_joining | gender | salary | deptno | Mobile_Number |
++-----------+-------+-------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Jayesh    |   101 | Malegaon    | Nashik   | 2001-10-29 | 2021-01-15      | M      | 800000 |      3 |    1234567890 |
+| Prathmesh |   201 | Warkhed     | Malkapur | 2002-03-28 | 2021-01-29      | M      | 800000 |      2 |    9022363964 |
+| Anuja     |   221 | Warkhed     | Malkapur | 2005-10-29 | 2020-02-28      | F      | 700000 |      1 |    1234567891 |
+| Pranav    |   222 | XYZ         | Latur    | 2001-04-28 | 2021-01-29      | M      | 600000 |      3 |    9876543210 |
+| Kapil     |   258 | Swargate    | Pune     | 2001-09-25 | 2019-01-29      | M      | 600000 |      4 |    9876541110 |
+| Yash      |   305 | Panchavati  | Nashik   | 2002-05-30 | 2021-01-26      | M      | 500000 |      2 |    2058631575 |
+| Suraj     |   307 | Ghirni Road | Malkapur | 2000-11-15 | 2024-06-05      | F      |  40000 |      1 |    9463527899 |
+| Kedar     |   308 | Katraj      | Pune     | 2001-04-15 | 2020-01-29      | M      | 600000 |      3 |    7894563210 |
++-----------+-------+-------------+----------+------------+-----------------+--------+--------+--------+---------------+
+8 rows in set (0.01 sec)
+
+mysql> select * from Employees where year(date_of_joining)='2019' or year(date_of_joining)='2020';
++-------+-------+----------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Name  | empid | address  | city     | dob        | date_of_joining | gender | salary | deptno | Mobile_Number |
++-------+-------+----------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Anuja |   221 | Warkhed  | Malkapur | 2005-10-29 | 2020-02-28      | F      | 700000 |      1 |    1234567891 |
+| Kapil |   258 | Swargate | Pune     | 2001-09-25 | 2019-01-29      | M      | 600000 |      4 |    9876541110 |
+| Kedar |   308 | Katraj   | Pune     | 2001-04-15 | 2020-01-29      | M      | 600000 |      3 |    7894563210 |
++-------+-------+----------+----------+------------+-----------------+--------+--------+--------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from Employees where salary > 50000;
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Name      | empid | address    | city     | dob        | date_of_joining | gender | salary | deptno | Mobile_Number |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+| Jayesh    |   101 | Malegaon   | Nashik   | 2001-10-29 | 2021-01-15      | M      | 800000 |      3 |    1234567890 |
+| Prathmesh |   201 | Warkhed    | Malkapur | 2002-03-28 | 2021-01-29      | M      | 800000 |      2 |    9022363964 |
+| Anuja     |   221 | Warkhed    | Malkapur | 2005-10-29 | 2020-02-28      | F      | 700000 |      1 |    1234567891 |
+| Pranav    |   222 | XYZ        | Latur    | 2001-04-28 | 2021-01-29      | M      | 600000 |      3 |    9876543210 |
+| Kapil     |   258 | Swargate   | Pune     | 2001-09-25 | 2019-01-29      | M      | 600000 |      4 |    9876541110 |
+| Yash      |   305 | Panchavati | Nashik   | 2002-05-30 | 2021-01-26      | M      | 500000 |      2 |    2058631575 |
+| Kedar     |   308 | Katraj     | Pune     | 2001-04-15 | 2020-01-29      | M      | 600000 |      3 |    7894563210 |
++-----------+-------+------------+----------+------------+-----------------+--------+--------+--------+---------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from Project;
++------------+---------------------+--------+
+| Project_id | Title               | City   |
++------------+---------------------+--------+
+|          1 | Banking Project     | Nashik |
+|          3 | ERP system          | Pune   |
+|          4 | Software Management | Mumbai |
+|          5 | Debugging Project   | Pune   |
++------------+---------------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from Project where City="Pune";
++------------+-------------------+------+
+| Project_id | Title             | City |
++------------+-------------------+------+
+|          3 | ERP system        | Pune |
+|          5 | Debugging Project | Pune |
++------------+-------------------+------+
+2 rows in set (0.00 sec)
+
+mysql> select * from  Dependant;
++-------+-------------------+------+----------+
+| empid | name_of_dependent | age  | relation |
++-------+-------------------+------+----------+
+|   102 | XYZ               |   15 | Son      |
+|   102 | PQR               |   18 | Daughter |
+|   305 | MNO               |   50 | Mother   |
+|   101 | QWE               |   75 | Father   |
++-------+-------------------+------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from  Dependant where empid = 102;
++-------+-------------------+------+----------+
+| empid | name_of_dependent | age  | relation |
++-------+-------------------+------+----------+
+|   102 | XYZ               |   15 | Son      |
+|   102 | PQR               |   18 | Daughter |
++-------+-------------------+------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from Dept;
++--------+----------------+---------------+--------------+
+| Deptno | Name           | Location      | Managerempid |
++--------+----------------+---------------+--------------+
+|      1 | Development    | Building 1    |          401 |
+|      2 | Testing        | Building 2    |          402 |
+|      3 | Planning       | Building 2    |          403 |
+|      4 | Service        | Building 3    |          404 |
+|      5 | Administration | Main Building |          405 |
++--------+----------------+---------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select Name from Dept;
++----------------+
+| Name           |
++----------------+
+| Development    |
+| Testing        |
+| Planning       |
+| Service        |
+| Administration |
++----------------+
+5 rows in set (0.00 sec)
+
+mysql> select Name,(datediff(current_date,str_to_date(dob, '%Y-%m-%d'))/365) as age from employees;
+ERROR 1146 (42S02): Table 'A_14.employees' doesn't exist
+mysql> select Name,(datediff(current_date,str_to_date(dob, '%Y-%m-%d'))/365) as age from Employees;
++-----------+---------+
+| Name      | age     |
++-----------+---------+
+| Jayesh    | 20.7753 |
+| Prathmesh | 20.3644 |
+| Anuja     | 16.7726 |
+| Pranav    | 21.2795 |
+| Kapil     | 20.8685 |
+| Yash      | 20.1918 |
+| Suraj     | 21.7288 |
+| Kedar     | 21.3151 |
++-----------+---------+
+8 rows in set (0.00 sec)
+
+mysql> select Name,(datediff(current_date,str_to_date(dob, '%Y-%m-%d'))/365) as age from Employees order by age desc;
++-----------+---------+
+| Name      | age     |
++-----------+---------+
+| Suraj     | 21.7288 |
+| Kedar     | 21.3151 |
+| Pranav    | 21.2795 |
+| Kapil     | 20.8685 |
+| Jayesh    | 20.7753 |
+| Prathmesh | 20.3644 |
+| Yash      | 20.1918 |
+| Anuja     | 16.7726 |
++-----------+---------+
+8 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 

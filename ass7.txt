@@ -1,0 +1,55 @@
+create table STUDENT_DATA(roll int, div varchar(10),stu_name varchar(100),marks number);
+
+insert into STUDENT_DATA values(1,'A','abc',100);
+insert into STUDENT_DATA values(1,'B','qew',86);
+insert into STUDENT_DATA values(2,'A','awe',85);
+insert into STUDENT_DATA values(2,'B','pip',96);
+insert into STUDENT_DATA values(3,'A','dad',36);
+insert into STUDENT_DATA values(3,'B','aca',45);
+insert into STUDENT_DATA values(4,'A','asw',76);
+insert into STUDENT_DATA values(4,'B','mnb',93);
+insert into STUDENT_DATA values(5,'A','xyz',56);
+insert into STUDENT_DATA values(6,'A','opu',98);
+insert into STUDENT_DATA values(7,'B','xnb',63);
+insert into STUDENT_DATA values(8,'A','pwe',86);
+insert into STUDENT_DATA values(8,'B','mnx',49);
+insert into STUDENT_DATA values(9,'A','asw',55);
+insert into STUDENT_DATA values(10,'A','asa',69);
+
+
+create table TEA(roll int, div varchar(10),stu_name varchar(100),marks number);
+create table TEB(roll int, div varchar(10),stu_name varchar(100),marks number);
+
+DECLARE  
+    teamax int := 0;
+    teamaxname varchar(255);
+    tebmax int := 0;
+    tebmaxname varchar(255);
+    stud_rec STUDENT_DATA%rowtype;
+     
+CURSOR stud_cur is SELECT roll,div,stu_name,marks FROM STUDENT_DATA;
+ 
+BEGIN
+    OPEN stud_cur;
+    LOOP
+        FETCH stud_cur into stud_rec;
+        EXIT WHEN stud_cur%notfound;
+        IF stud_rec.div='A' then  
+            insert into TEA values(stud_rec.roll, stud_rec.div,stud_rec.stu_name,stud_rec.marks);
+        if(stud_rec.marks>teamax) then
+                teamax:=stud_rec.marks;
+                teamaxname:=stud_rec.stu_name;
+            end if;
+        else
+            insert into teb values(stud_rec.roll, stud_rec.div,stud_rec.stu_name, stud_rec.marks);
+            if(stud_rec.marks>tebmax) then
+                tebmax:=stud_rec.marks;
+                tebmaxname:=stud_rec.stu_name;
+            end if;
+        end if;
+    end loop;
+    close stud_cur;
+    dbms_output.put_line('Topper of A div is ' || teamaxname || ' with marks ' || teamax);
+    dbms_output.put_line('Topper of B div is ' || tebmaxname || ' with marks ' || tebmax);
+     
+END; 

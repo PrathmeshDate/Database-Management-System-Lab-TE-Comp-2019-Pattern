@@ -1,0 +1,40 @@
+create table Borrower(Roll_no int,BName varchar(100),Date_of_issue date,Name_of_book varchar(100),Status varchar(50));
+create table Fine(Roll_no int,FDate date,Amt int);
+
+insert into Borrower values(1,'Anku',to_date('15-AUG-2022','DD-MON-YYYY'),'toc','I');
+
+insert into Borrower values(2,'Anu',to_date('28-FEB-2022','DD-MON-YYYY'),'toc','I');
+
+insert into Borrower values(3,'Poonam',to_date('15-NOV-2022','DD-MON-YYYY'),'toc','I');
+
+insert into Borrower values(4,'Rupali',to_date('01-NOV-2022','DD-MON-YYYY'),'toc','I');
+insert into Borrower values(5,'Dipali',to_date('15-MAY-2022','DD-MON-YYYY'),'toc','I');
+
+DECLARE
+    tempDate date;
+    amount int;
+    no_of_days int;
+    r int;
+    invalid EXCEPTION;
+BEGIN
+    FOR r in 1..5 LOOP
+        select Date_of_issue into tempDate from Borrower where Roll_no = r;
+        no_of_days := current_date - tempDate;
+        if no_of_days >= 15 and no_of_days <=30 then
+            amount := 5*no_of_days;
+            insert into Fine values(r,tempDate,amount);
+        elsif no_of_days > 30 then
+            amount := 5*no_of_days;
+            insert into Fine values(r,tempDate,amount);
+        end if;
+        
+        if no_of_days < 0 then
+            raise invalid;
+        end if;
+    end loop;
+EXCEPTION
+    when invalid then
+        dbms_output.put_line('Difference between issue date and current date can not be zero.');
+END;
+
+select * from Fine;

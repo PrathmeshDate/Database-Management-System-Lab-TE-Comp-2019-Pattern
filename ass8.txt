@@ -1,0 +1,38 @@
+create table Book(book_id number,title varchar(50),author_name  varchar2(50) not null,qnt number);
+create table Library_audit(book_id number,title varchar(50),action varchar(30),act_date date);
+
+insert into Book values(1,'abc','a',5);
+insert into Book values(2,'def','b',10);
+insert into Book values(3,'ghi','c',15);
+insert into Book values(4,'jkl','d',20);
+insert into Book values(5,'mno','e',100);
+insert into Book values(6,'pqr','f',60);
+insert into Book values(7,'stu','g',30);
+insert into Book values(8,'vwx','h',50);
+--before trigger
+create or replace trigger bookchange1
+BEFORE DELETE ON Book
+for each row
+Begin
+IF DELETING THEN
+     insert into Library_audit values (:OLD.book_id, :OLD.author_name, 'Delete',SYSDATE());
+end if;
+end;
+--after trigger
+create or replace trigger bookchange2
+AFTER UPDATE ON Book
+for each row
+Begin
+IF UPDATING THEN
+     insert into Library_audit values (:OLD.book_id, :OLD.author_name, 'Update',SYSDATE());
+END IF;
+end;
+
+--Test cases
+select * from book;
+
+delete from book where Book_id=1;
+
+select * from Library_audit;
+
+update Book set title='yyyy' where Book_id=2;

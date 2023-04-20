@@ -1,0 +1,37 @@
+create table studMarks(roll_no int , stud_name varchar(40) , total_marks int);
+create table studResult(roll_no int , stud_Name varchar(40) , stud_class varchar(40));
+
+insert into studMarks values(1,'deepak londhe',1200);
+insert into studMarks values(2,'chinamay kulkarni',1000);
+insert into studMarks values(3,'yash mahale',856);
+insert into studMarks values(4,'darshan golhar',970);
+
+create or replace procedure proc_grade
+is
+ 
+categ varchar(40);
+r int;
+stud_rec studMarks%rowtype;
+ 
+begin
+ 
+ 
+  for r in 1..4 loop
+    select * into stud_rec from studMarks where roll_no=r;
+    if stud_rec.total_marks >=990 and stud_rec.total_marks<=15000 then
+       categ:='distinction';
+    elsif stud_rec.total_marks >=900 and stud_rec.total_marks<=989 then
+       categ:='first class';
+    elsif stud_rec.total_marks >=825 and stud_rec.total_marks<=899 then
+       categ:='higher second class';
+       
+    end if;
+   
+    insert into studResult values (stud_rec.roll_no ,stud_rec.stud_name , categ);
+   
+  end loop;
+ 
+end;
+
+execute proc_grade;
+select * from studResult;

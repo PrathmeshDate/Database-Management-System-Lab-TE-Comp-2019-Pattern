@@ -1,0 +1,137 @@
+db.TE61.insert([
+  {
+       title: "MongoDB Overview",
+       description: "MongoDB is no SQL database",
+       by: "tutorials point",
+       url: "http://www.tutorialspoint.com",
+       tags: ["mongodb", "database", "NoSQL"],
+       likes: 100,
+                username:"Mansi123",
+       comments: [
+       {
+                user:"user1",
+                message: "My first comment",
+                dateCreated: new Date(2013,11,10,2,35),
+
+        }
+               ]
+
+  }])
+
+
+
+
+db.TE61.find({"title":"MongoDB Overview"}).pretty()
+
+
+db.TE61.find({$or:[{"by":"john"},{"title": "MongoDB Overview"}]}).pretty()
+
+
+db.TE61.find({$AND:[{"by":"john"},{"title": "MongoDB Overview"}]}).pretty()
+
+
+db.TE61.insertMany(
+... [
+... {
+... title: "MongoDB Overview",
+... description: "MongoDB is no SQL database",
+... by: "tutorials point",
+... url: "http://www.tutorialspoint.com",
+... tags: ["mongodb", "database", "NoSQL"],
+... likes: 100
+... },
+... {
+... title: "MongoDB Overview",
+... description: "MongoDB is no SQL database",
+... by: "tutorials point",
+... url: "http://www.tutorialspoint.com",
+... tags: ["mongodb", "database", "NoSQL"],
+... likes: 100
+... },
+... {
+... title: "NOSQL Overview",
+... description: "MongoDB is no SQL database",
+... by: "tutorials point",
+... url: "http://www.tutorialspoint.com",
+... tags: ["mongodb", "database", "NoSQL"],
+... likes: 100
+...
+... },
+...               {title: "MongoDB Overview",
+... description: "MongoDB is no SQL database",
+... by: "john",
+... url: "http://www.tutorialspoint.com",
+... tags: ["mongodb", "database", "NoSQL"],
+... likes: 100
+...
+... },
+...               {
+... title: "NOSQL Overview",
+... description: "MongoDB is no SQL database",
+... by: "john",
+... url: "http://www.tutorialspoint.com",
+... tags: ["mongodb", "database", "NoSQL"],
+... likes: 100
+...
+... }
+... ]
+... )
+
+TO UPDATE TITLE from MangoDB Overview to MangoDB
+
+db.TE61.update({'title':'MongoDB Overview'},
+ {$set:{'title':'MongoDB'}},{multi:false})
+
+
+
+
+TO FIND LIKE>10
+db.TE61.find( { likes: { $gt: 10 } } ).pretty()
+db.TE61.find( { likes: { $gt: 100 } } ).pretty()
+
+
+db.TE61.find({$and:[{ likes: { $gt: 100 } },{$or:[{"by":"john"},{"title": "MongoDB
+Overview"}]}]}).pretty()
+
+**********FORMAT**************
+find({$and:[{},{$or:[{},{}]}]}})
+
+
+******DELETE*********
+
+db.TE61.remove({'title':'NOSQL Overview'})
+
+**************written by john************
+
+
+db.TE61.find({"by":"john"}).limit(2)
+
+
+*********skip*********
+db.TE61.find({"by":"tutorials point"}).limit(1).skip(1).pretty();
+
+
+*************sort**********
+db.TE61.find({}).sort({likes:1}).pretty()
+
+*************
+
+db.TE61.save([
+  {
+       title: "NOSQL Overview",
+       description: "MongoDB is no SQL database",
+       by: "tutorials point",
+       url: "http://www.tutorialspoint.com",
+       tags: ["mongodb", "database", "NoSQL"],
+       likes: 100,
+                username:"Mansi123",
+       comments: [
+       {
+                user:"user1",
+                message: "My first comment",
+          dateCreated: new Date(2013,11,10,2,35),
+
+      }
+          ]
+
+}])

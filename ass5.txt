@@ -1,0 +1,17 @@
+CREATE TABLE areas(radius INT, area NUMBER(10,2));
+-- sql queries for calculating areas of circle with radius 5 to 9
+
+DECLARE
+        r NUMBER;
+        area NUMBER;
+        pie NUMBER := 3.14159;
+BEGIN
+        FOR r IN 5..9 LOOP
+        area:= pie*r*r;
+       
+        INSERT INTO areas VALUES(r,area);
+    END LOOP;
+    COMMIT;
+END;
+
+SELECT * FROM areas;

@@ -1,0 +1,215 @@
+
+(base) unix@unix-HP-280-G1-MT:~$ sudo systemctl start mongod
+[sudo] password for unix: 
+(base) unix@unix-HP-280-G1-MT:~$ mongo
+MongoDB shell version v4.2.1
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("c0c7d499-9bb1-4307-8abf-d369f82f067f") }
+MongoDB server version: 4.2.1
+Server has startup warnings: 
+2022-11-02T13:29:28.770+0530 I  STORAGE  [initandlisten] 
+2022-11-02T13:29:28.770+0530 I  STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+2022-11-02T13:29:28.770+0530 I  STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+2022-11-02T13:29:30.154+0530 I  CONTROL  [initandlisten] 
+2022-11-02T13:29:30.154+0530 I  CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2022-11-02T13:29:30.154+0530 I  CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2022-11-02T13:29:30.154+0530 I  CONTROL  [initandlisten] 
+---
+Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+and anyone you share the URL with. MongoDB may use this information to make product
+improvements and to suggest MongoDB products and deployment options to you.
+
+To enable free monitoring, run the following command: db.enableFreeMonitoring()
+To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> use A19DB
+switched to db A19DB
+> db.createCollection("Ass12")
+{ "ok" : 1 }
+> db.Ass12.insertOne({ Cust_id : "A1", Amount : 400,Status:"P"})
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("636224f05c53867419250332")
+}
+> db.Ass12.insertOne({ Cust_id : "B1", Amount : 300,Status:"D"})
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("636224f55c53867419250333")
+}
+> db.Ass12.insertOne({ Cust_id : "A1", Amount : 200,Status:"F"})
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("636225035c53867419250334")
+}
+> db.Ass12.insertOne({ Cust_id : "C1", Amount : 200,Status:"F"})
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("6362250f5c53867419250335")
+}
+> db.Ass12.insertOne({ Cust_id : "B1", Amount : 700,Status:"P"})
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("636225215c53867419250336")
+}
+> db.Ass12.insertOne({ Cust_id : "B1", Amount : 800,Status:"P"})
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("6362252f5c53867419250337")
+}
+> 
+> var mapFunction1 = function() {
+...    emit(this.Cust_id, this.Amount);
+... }
+> 
+> var reduceFunction1 = function(key, values) {
+...    return Array.sum(values);
+... };
+> 
+> 
+> db.Ass12.mapReduce(
+...    mapFunction1,
+...    reduceFunction1,
+...    { 
+...     query: {Status:"P"},
+...    out: "map_reduce_example1"
+...    
+...     }
+...    
+... )
+{
+	"result" : "map_reduce_example1",
+	"timeMillis" : 549,
+	"counts" : {
+		"input" : 3,
+		"emit" : 3,
+		"reduce" : 1,
+		"output" : 2
+	},
+	"ok" : 1
+}
+> 
+> 
+> db.map_reduce_example1.find()
+{ "_id" : "A1", "value" : 400 }
+{ "_id" : "B1", "value" : 1500 }
+> 
+> var mapFunction1 = function() {
+...    emit(this.Cust_id, this.Amount);
+... }
+> 
+> var reduceFunction1 = function(key, values) {
+...    return Array.avg(values);
+... };
+> 
+> 
+> db.Ass12.mapReduce(
+...    mapFunction1,
+...    reduceFunction1,
+...    { 
+...    out: "map_reduce_example1"
+...    
+...     }
+...    
+... )
+{
+	"result" : "map_reduce_example1",
+	"timeMillis" : 324,
+	"counts" : {
+		"input" : 6,
+		"emit" : 6,
+		"reduce" : 2,
+		"output" : 3
+	},
+	"ok" : 1
+}
+> 
+> 
+> db.map_reduce_example1.find()
+{ "_id" : "A1", "value" : 300 }
+{ "_id" : "B1", "value" : 600 }
+{ "_id" : "C1", "value" : 200 }
+> 
+> var mapFunction1 = function() {
+...    emit(this.Cust_id, this.Amount);
+... }
+> 
+> var reduceFunction1 = function(key, values) {
+... var min = values[0]
+... values.forEach(function(val) {
+...         if (val < min) min = val;
+...     })
+...    return min;
+... };
+> 
+> 
+> db.Ass12.mapReduce(
+...    mapFunction1,
+...    reduceFunction1,
+...    { 
+...    out: "map_reduce_example1"
+...    
+...     }
+...    
+... )
+{
+	"result" : "map_reduce_example1",
+	"timeMillis" : 340,
+	"counts" : {
+		"input" : 6,
+		"emit" : 6,
+		"reduce" : 2,
+		"output" : 3
+	},
+	"ok" : 1
+}
+> 
+> 
+> db.map_reduce_example1.find()
+{ "_id" : "A1", "value" : 200 }
+{ "_id" : "B1", "value" : 300 }
+{ "_id" : "C1", "value" : 200 }
+
+> var mapFunction1 = function() {
+...    emit(this.Cust_id, this.Amount);
+... }
+> 
+> var reduceFunction1 = function(key, values) {
+... var max = values[0]
+... values.forEach(function(val) {
+...         if (val > max) max = val;
+...     })
+...    return max;
+... };
+> 
+> 
+> db.Ass12.mapReduce(
+...    mapFunction1,
+...    reduceFunction1,
+...    { 
+...    query:{Status : "F"},
+...    out: "map_reduce_example1"
+...    
+...     }
+...    
+... )
+{
+	"result" : "map_reduce_example1",
+	"timeMillis" : 354,
+	"counts" : {
+		"input" : 2,
+		"emit" : 2,
+		"reduce" : 0,
+		"output" : 2
+	},
+	"ok" : 1
+}
+> 
+> 
+> db.map_reduce_example1.find()
+{ "_id" : "A1", "value" : 200 }
+{ "_id" : "C1", "value" : 200 }
+> 
+
